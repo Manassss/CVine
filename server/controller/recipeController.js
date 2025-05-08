@@ -4,7 +4,7 @@ const RecipeComment = require('../models/Recipecomment');
 const createRecipe = async (req, res) => {
     try {
         console.log("recipe created started", req.body);
-        const { name, ingredients, bottles, method, userName, expertRecommendation, byUserId } = req.body;
+        const { name, ingredients, bottles, method, userName, byUserId,imageUrl } = req.body;
 
         const newRecipe = new Recipe({
             name,
@@ -12,13 +12,15 @@ const createRecipe = async (req, res) => {
             bottles,
             method,
             userName,
-            expertRecommendation,
+            imageUrl,
             byUserId,
         });
 
         const savedRecipe = await newRecipe.save();
+        console.log("recipe created", savedRecipe);
         res.status(201).json(savedRecipe);
     } catch (error) {
+        console.log("Error creating recipe:", error);
         res.status(500).json({ message: 'Error creating recipe', error });
     }
 };
@@ -190,8 +192,10 @@ const createComment = async (req, res) => {
         const { recipeId, userId, userName, comment } = req.body;
         const newComment = new RecipeComment({ recipeId, userId, userName, comment });
         const savedComment = await newComment.save();
+        
         res.status(201).json(savedComment);
     } catch (error) {
+        console.log("Error creating comment:", error);
         res.status(500).json({ message: 'Error creating comment', error });
     }
 };
@@ -201,10 +205,10 @@ const getCommentsByRecipeId = async (req, res) => {
     try {
         const recipeId  = req.params.id;
         console.log("recipeId", recipeId);
-        const comments = await RecipeComment.find({ recipeId });
+        const comments = await RecipeComment.find({_id:recipeId});
         res.status(200).json(comments);
     } catch (error) {
-        console.error("Error fetching comments:", error);
+        console.log("Error fetching comments:", error);
         res.status(500).json({ message: 'Error fetching comments', error });
     }
 };
