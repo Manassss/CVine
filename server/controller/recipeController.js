@@ -187,8 +187,8 @@ const createComment = async (req, res) => {
         console.log("comment started", req.body)
         // Destructure th
         // e required fields from the request body
-        const { recipeId, userId, comment } = req.body;
-        const newComment = new RecipeComment({ recipeId, userId, comment });
+        const { recipeId, userId, userName, comment } = req.body;
+        const newComment = new RecipeComment({ recipeId, userId, userName, comment });
         const savedComment = await newComment.save();
         res.status(201).json(savedComment);
     } catch (error) {
@@ -199,10 +199,12 @@ const createComment = async (req, res) => {
 // Get all comments for a specific recipe by recipeId
 const getCommentsByRecipeId = async (req, res) => {
     try {
-        const { recipeId } = req.params;
+        const recipeId  = req.params.id;
+        console.log("recipeId", recipeId);
         const comments = await RecipeComment.find({ recipeId });
         res.status(200).json(comments);
     } catch (error) {
+        console.error("Error fetching comments:", error);
         res.status(500).json({ message: 'Error fetching comments', error });
     }
 };

@@ -4,8 +4,7 @@ const addhistory = async (req, res) => {
     try {
         // Destructure the request body for userId and bottles
         const { userId, bottle } = req.body;
-        console.log("userId", bottle);
-        console.log("histroy body", req.body);
+        
         const alreadyExist = await SearchHistory.findOne({userId,bottle:bottle._id})
         if(alreadyExist){
             return res.status(201).json({ error: 'Bottle already exists in search history' });

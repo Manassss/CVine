@@ -5,7 +5,9 @@ const recipeController = require('../controller/recipeController');
 // Static routes first
 router.get('/', recipeController.getAllRecipes);        // Get all recipes
 router.post('/', recipeController.createRecipe);          // Create a new recipe
-router.post('/comment', recipeController.createComment);  // Create a comment for a recipe
+router.post('/comment/', recipeController.createComment);  // Create a comment for a recipe
+router.get('/comment/:id', recipeController.getCommentsByRecipeId); // Get comments for a recipe
+router.delete('/comment/:id', recipeController.deleteComment); // Delete a comment by ID
 router.put('/:id', recipeController.updateRecipe);        // Update a recipe
 router.delete('/:id', recipeController.deleteRecipe);     // Delete a recipe
 router.put('/like', recipeController.toggleLike);        // Add a like to a recipe

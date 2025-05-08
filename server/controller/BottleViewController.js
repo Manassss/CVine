@@ -16,8 +16,6 @@ const updateBottleView = async (req, res) => {
             { new: true, upsert: true } // Create if not exists
         );
 
-        console.log("Bottle view updated:", bottleView);
-
         // Increment view count in the Bottle collection
         await Bottle.findByIdAndUpdate(bottleId, { $inc: { viewCount: 1 } });
 

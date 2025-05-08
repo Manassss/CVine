@@ -60,6 +60,10 @@ const searchbottle = async (req, res) => {
     try {
         const query = req.query.q; // Search term
         const { country, wineType, grapeType } = req.query; // Extract filters from query params
+        console.log("Query:", query);
+        console.log("Country:", country);
+        console.log("Wine Type:", wineType);
+        console.log("Grape Type:", grapeType);
 
         if (!query) return res.json({ success: true, data: [] });
 
@@ -90,7 +94,7 @@ const searchbottle = async (req, res) => {
 
 const getTrending = async (req, res) => {
     try {
-        console.log("absfd");
+       
         // First, get top 10 bottleIds based on view counts
         const topBottles = await BottleView.find({})
             .sort({ viewCount: -1 })
@@ -99,7 +103,7 @@ const getTrending = async (req, res) => {
             .lean();
 
         const bottleIds = topBottles.map(bv => bv.bottleId);
-        console.log("bot", topBottles);
+
         // Now, fetch corresponding bottle details
         const bottles = await Bottle.find({ _id: { $in: bottleIds } }, 'name imageUrl');
 

@@ -13,7 +13,7 @@ const getUserProfile = async (req, res) => {
         .json({ success: false, message: "User ID is required." });
     }
 
-    const user = await User.findById(id).select("-password"); // Exclude password from response
+    const user = await User.findById(id).select("-password").populate('badges'); // Exclude password from response
     if (!user) {
       return res
         .status(404)
